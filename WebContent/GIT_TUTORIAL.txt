@@ -1,0 +1,17 @@
+Step 1: cd /home/prime/workspace/<your project>
+Step 2: git init
+Step 3: git add .
+Step 4: git commit -m "Commit message in quotes"
+Step 5: git status
+Step 6: git config user.email "chandini412@gmail.com"
+Step 7: git config user.name "thalupulamma"
+Step 8: git branch -a
+Step 9: git branch alpha
+Step 10: git checkout alpha
+Step 11: Go to eclipse and import project
+Step 12: Team >> push to branch alpha
+Step 13: Give User name and password credentials
+
+
+
+
