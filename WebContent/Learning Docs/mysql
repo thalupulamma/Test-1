@@ -1,0 +1,19 @@
+
+MySQL Database Uninstall in Ubuntu: 
+
+Purged mysql5 with:
+
+sudo apt-get purge mysql-*
+
+Then for cleaning up:
+
+sudo apt-get autoremove
+sudo apt-get autoclean
+
+MySQL Database Install in Ubuntu:
+
+sudo apt-get install mysql-server
+ mysql -u root -p
+
+sudo apt-get install mysql-workbench
+
