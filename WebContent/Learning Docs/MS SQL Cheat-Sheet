@@ -35,3 +35,68 @@ ADD CONSTRAINT fk_table_name_other_table_name
 FOREIGN KEY (column_name)
 REFERENCES other_table_name(other_table_column_name)
 -----------------------To create a Foreign key for on a table column------------------------------------------
+
+--enable all triggers
+EXEC sp_msforeachtable "ALTER TABLE ? ENABLE TRIGGER ALL"
+
+-------------------------------------------------------------------------
+
+--disable all triggers
+EXEC sp_msforeachtable "ALTER TABLE ? DISABLE TRIGGER ALL"
+
+------------------------------------------------------------------------
+
+--to get the triggers list in a database
+SELECT
+     sysobjects.name AS trigger_name
+    ,USER_NAME(sysobjects.uid) AS trigger_owner
+    ,s.name AS table_schema
+    ,OBJECT_NAME(parent_obj) AS table_name
+    ,OBJECTPROPERTY( id, 'ExecIsUpdateTrigger') AS isupdate
+    ,OBJECTPROPERTY( id, 'ExecIsDeleteTrigger') AS isdelete
+    ,OBJECTPROPERTY( id, 'ExecIsInsertTrigger') AS isinsert
+    ,OBJECTPROPERTY( id, 'ExecIsAfterTrigger') AS isafter
+    ,OBJECTPROPERTY( id, 'ExecIsInsteadOfTrigger') AS isinsteadof
+    ,OBJECTPROPERTY(id, 'ExecIsTriggerDisabled') AS [disabled]
+FROM sysobjects
+
+INNER JOIN sysusers
+    ON sysobjects.uid = sysusers.uid
+
+INNER JOIN sys.tables t
+    ON sysobjects.parent_obj = t.object_id
+
+INNER JOIN sys.schemas s
+    ON t.schema_id = s.schema_id
+
+WHERE sysobjects.type = 'TR'
+
+-----------------------------------------------------------------
+
+--enabling each individual trigger
+ENABLE TRIGGER TriggerName on TableName;
+
+(or)
+ALTER TABLE TableName ENABLE TRIGGER  TriggerName;
+
+-------------------------------------------------------------------
+
+--disabling each individual trigger
+DISABLE TRIGGER TriggerName on TableName;
+
+(or)
+
+ALTER TABLE TableName DISABLE TRIGGER  TriggerName;
+
+---------------------------------------------------------
+
+--Query to search column in all tables of a database
+SELECT      c.name  AS 'ColumnName'
+            ,t.name AS 'TableName'
+FROM        sys.columns c
+JOIN        sys.tables  t   ON c.object_id = t.object_id
+WHERE       c.name in ('column name')
+ORDER BY    TableName
+            ,ColumnName;
+            
+-------------------------------------------------------------------
