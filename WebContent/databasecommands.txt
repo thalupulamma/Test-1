@@ -1,0 +1,53 @@
+select * from a WHERE PK_ID ='AAAA' and 
+ NOT EXISTS(SELECT 1 FROM sampledb.dbo.a WHERE PK_ID = 'AAAA')
+ -------------------------------------------------------------------------
+ -- Rename a Table Name -------------------
+ EXEC sp_rename 'Stu_Table', 'Stu_Table_10'
+ -------------------------------------------
+ --Enable all triggers
+EXEC sp_msforeachtable "ALTER TABLE ? ENABLE TRIGGER ALL"
+
+--Disable all triggers
+EXEC sp_msforeachtable "ALTER TABLE ? DISABLE TRIGGER ALL"
+
+--To get the triggers list in a database
+SELECT
+     sysobjects.name AS trigger_name
+    ,USER_NAME(sysobjects.uid) AS trigger_owner
+    ,s.name AS table_schema
+    ,OBJECT_NAME(parent_obj) AS table_name
+    ,OBJECTPROPERTY( id, 'ExecIsUpdateTrigger') AS isupdate
+    ,OBJECTPROPERTY( id, 'ExecIsDeleteTrigger') AS isdelete
+    ,OBJECTPROPERTY( id, 'ExecIsInsertTrigger') AS isinsert
+    ,OBJECTPROPERTY( id, 'ExecIsAfterTrigger') AS isafter
+    ,OBJECTPROPERTY( id, 'ExecIsInsteadOfTrigger') AS isinsteadof
+    ,OBJECTPROPERTY(id, 'ExecIsTriggerDisabled') AS [disabled]
+FROM sysobjects
+
+INNER JOIN sysusers
+    ON sysobjects.uid = sysusers.uid
+
+INNER JOIN sys.tables t
+    ON sysobjects.parent_obj = t.object_id
+
+INNER JOIN sys.schemas s
+    ON t.schema_id = s.schema_id
+
+WHERE sysobjects.type = 'TR'
+
+--enabling each individual trigger
+ENABLE TRIGGER trigger_name on table_name;
+
+(or)
+ALTER TABLE table_name ENABLE TRIGGER trigger_name;
+
+--disabling each individual trigger
+DISABLE TRIGGER trigger_name on table_name;
+
+(or)
+
+ALTER TABLE table_name DISABLE TRIGGER trigger_name;
+
+--------------------------------
+
+ 
