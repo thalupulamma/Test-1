@@ -1,0 +1,2 @@
+-- To change Time zone in Linux from Terminal----
+sudo timedatectl set-timezone America/New_York

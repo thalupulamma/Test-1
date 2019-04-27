@@ -22,7 +22,7 @@ public class SecondMinimum {
 	}
 
 	private static Integer findSecondMin(int[] numberslist) {
-		Integer minimumValue;
+		Integer minimumValue = null;
 		Arrays.sort(numberslist);
 		Integer min = numberslist[0];
 		List<Integer> list = new ArrayList<Integer>();  

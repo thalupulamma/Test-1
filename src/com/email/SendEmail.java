@@ -35,7 +35,7 @@ public class SendEmail {
 				Message message = new MimeMessage(session);
 				message.setFrom(new InternetAddress("thalupulamma@primesoftinc.com"));
 				message.setRecipients(Message.RecipientType.TO,
-					InternetAddress.parse("thalupulamma@alphaclinicalsystems.com"));
+					InternetAddress.parse("m@alphaclinicalsystems.com"));
 				message.setSubject("Testing Subject");
 				message.setText("Dear Mail Crawler,"
 					+ "\n\n No spam to my email, please!");
